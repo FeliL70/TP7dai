@@ -15,18 +15,18 @@ import {
 export default function App() {
   const [mensaje, handleMensaje] = useState("");
   const [carga, setCarga] = useState(true);
+  const [perfilCambio, setPerfilCambiado] = useState(false);
 
   const handleContactar = () => {
-   if(mensaje===""){
-    alert("no escribiste nada")
-   }
-   else{
-    alert(mensaje)
-   }
+    if (mensaje === "") {
+      alert("no escribiste nada");
+    } else {
+      alert(mensaje);
+    }
   };
 
   const handleVerPerfil = () => {
-
+    setPerfilCambiado(true);
   };
 
   useEffect(() => {
@@ -37,11 +37,12 @@ export default function App() {
 
   if (carga) {
     return (
-      <SafeAreaView style={styles.splashContainer}>
-        <Text style={styles.splashText}>Cargando</Text>
+      <SafeAreaView style={styles.pantallaCarga}>
+        <Text style={styles.textoCarga}>Cargando</Text>
       </SafeAreaView>
     );
   }
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,7 +65,7 @@ export default function App() {
 
           <TextInput
             style={styles.input}
-            placeholder="Escribí lo que quieras"
+            placeholder="Escribi lo que quieras"
             placeholderTextColor="#aaa"
             onChangeText={handleMensaje}
             value={mensaje}
@@ -76,10 +77,27 @@ export default function App() {
 
           <Pressable
             onPress={handleVerPerfil}
-            style={({ pressed }) => [
-              styles.perfil,
-              { opacity: pressed ? 0.7 : 1, backgroundColor: pressed ? "#388E3C" : "#4CAF50" },
-            ]}
+            style={(estado) => {
+              const cambioStyle = {
+                padding: 10,
+                borderRadius: 10,
+                width: "100%",
+                alignItems: "center",
+                backgroundColor: "#4CAF50",
+                opacity: 1,
+              };
+
+              if (perfilCambio) {
+                cambioStyle.backgroundColor = "#8A2BE2";
+              } else {
+                if (estado.pressed) {
+                  cambioStyle.backgroundColor = "#388E3C";
+                  cambioStyle.opacity = 0.7;
+                }
+              }
+
+              return cambioStyle;
+            }}
           >
             <Text style={styles.perfilTexto}>Ver Perfil</Text>
           </Pressable>
@@ -94,16 +112,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
-  splashContainer: {
+  pantallaCarga: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
   },
-  splashText: {
+  textoCarga: {
     color: "#fff",
     fontSize: 24,
-  },
+  },  
   background: {
     flex: 1,
     resizeMode: "cover",
@@ -153,12 +171,6 @@ const styles = StyleSheet.create({
   botonTexto: {
     color: "#fff",
     fontSize: 16,
-  },
-  perfil: {
-    padding: 10,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "center",
   },
   perfilTexto: {
     color: "#fff",
