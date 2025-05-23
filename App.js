@@ -14,7 +14,6 @@ import {
 
 export default function App() {
   const [mensaje, handleMensaje] = useState("");
-  const [carga, setCarga] = useState(true);
   const [perfilCambio, setPerfilCambiado] = useState(false);
 
   const handleContactar = () => {
@@ -28,18 +27,7 @@ export default function App() {
   const handleVerPerfil = () => {
     setPerfilCambiado(true);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCarga(false);
-    }, 1000);
-  }, []);
-
-  if (carga) {
-    return (
-      <SafeAreaView style={styles.pantallaCarga}>
-        <Text style={styles.textoCarga}>Cargando</Text>
-      </SafeAreaView>
+</SafeAreaView>
     );
   }
   
@@ -111,16 +99,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-  },
-  pantallaCarga: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000",
-  },
-  textoCarga: {
-    color: "#fff",
-    fontSize: 24,
   },  
   background: {
     flex: 1,
