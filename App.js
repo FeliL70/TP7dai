@@ -21,7 +21,7 @@ export default function App() {
   const [perfilCambio, setPerfilCambiado] = useState(false);
 
   const handleContactar = () => {
-    if (mensaje.trim() === "") {
+    if (mensaje === "") {
       alert("No escribiste nada");
     } else {
       alert("Mensaje enviado: " + mensaje);
