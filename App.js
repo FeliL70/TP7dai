@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,25 +12,25 @@ import {
   View,
 } from "react-native";
 
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const [mensaje, handleMensaje] = useState("");
   const [perfilCambio, setPerfilCambiado] = useState(false);
 
   const handleContactar = () => {
-    if (mensaje === "") {
-      alert("no escribiste nada");
+    if (mensaje.trim() === "") {
+      alert("No escribiste nada");
     } else {
-      alert(mensaje);
+      alert("Mensaje enviado: " + mensaje);
     }
   };
 
   const handleVerPerfil = () => {
     setPerfilCambiado(true);
   };
-</SafeAreaView>
-    );
-  }
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,7 +53,7 @@ export default function App() {
 
           <TextInput
             style={styles.input}
-            placeholder="Escribi lo que quieras"
+            placeholder="Escribí lo que quieras"
             placeholderTextColor="#aaa"
             onChangeText={handleMensaje}
             value={mensaje}
@@ -65,23 +65,18 @@ export default function App() {
 
           <Pressable
             onPress={handleVerPerfil}
-            style={(estado) => {
+            style={({ pressed }) => {
               const cambioStyle = {
                 padding: 10,
                 borderRadius: 10,
                 width: "100%",
                 alignItems: "center",
-                backgroundColor: "#4CAF50",
-                opacity: 1,
+                backgroundColor: perfilCambio ? "#8A2BE2" : "#4CAF50",
+                opacity: pressed && !perfilCambio ? 0.7 : 1,
               };
 
-              if (perfilCambio) {
-                cambioStyle.backgroundColor = "#8A2BE2";
-              } else {
-                if (estado.pressed) {
-                  cambioStyle.backgroundColor = "#388E3C";
-                  cambioStyle.opacity = 0.7;
-                }
+              if (pressed && !perfilCambio) {
+                cambioStyle.backgroundColor = "#388E3C";
               }
 
               return cambioStyle;
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-  },  
+  },
   background: {
     flex: 1,
     resizeMode: "cover",
